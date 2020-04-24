@@ -20,67 +20,61 @@ class StoryBrain {
         storyTitle:
             'What? Such a cop out! Did you know traffic accidents are the second leading cause of accidental death for most adult age groups?',
         choice1: 'Restart',
-        choice2: ''),
+        choice2: 'Restart'),
     Story(
         storyTitle:
             'As you smash through the guardrail and careen towards the jagged rocks below you reflect on the dubious wisdom of stabbing someone while they are driving a car you are in.',
         choice1: 'Restart',
-        choice2: ''),
+        choice2: 'Restart'),
     Story(
         storyTitle:
             'You bond with the murderer while crooning verses of "Can you feel the love tonight". He drops you off at the next town. Before you go he asks you if you know any good places to dump bodies. You reply: "Try the pier".',
         choice1: 'Restart',
-        choice2: '')
+        choice2: 'Restart')
   ];
 
   String getStory() {
-    return _storyData[0].storyTitle;
+    return _storyData[_storyNumber].storyTitle;
   }
 
   String getChoice1() {
-    return _storyData[0].choice1;
+    return _storyData[_storyNumber].choice1;
   }
 
   String getChoice2() {
-    return _storyData[0].choice2;
+    return _storyData[_storyNumber].choice2;
   }
 
-  int storyNumber = 0;
+  int _storyNumber = 0;
 
-//TODO: Step 23 - Use the storyNumber property inside getStory(), getChoice1() and getChoice2() so that it gets the updated story and choices rather than always just the first (0th) one.
-
-//TODO: Step 25 - Change the storyNumber property into a private property so that only story_brain.dart has access to it. You can do this by right clicking on the name (storyNumber) and selecting Refactor -> Rename to make the change across all the places where it's used.
+  int restart() {
+    return _storyNumber = 0;
+  }
 
   void nextStory(int userChoice) {
-    if (storyNumber == 0) {
-      if (userChoice == 1) {
-        storyNumber = 2;
-      }
-      if (userChoice == 2) {
-        storyNumber = 1;
-      }
+    if (userChoice == 1 && _storyNumber == 0) {
+      _storyNumber = 2;
+    } else if (userChoice == 2 && _storyNumber == 0) {
+      _storyNumber = 1;
+    } else if (userChoice == 1 && _storyNumber == 1) {
+      _storyNumber = 2;
+    } else if (userChoice == 2 && _storyNumber == 1) {
+      _storyNumber = 3;
+    } else if (userChoice == 1 && _storyNumber == 2) {
+      _storyNumber = 5;
+    } else if (userChoice == 2 && _storyNumber == 2) {
+      _storyNumber = 4;
+    } else if (_storyNumber == 3 || _storyNumber == 4 || _storyNumber == 5) {
+      restart();
     }
-    if (storyNumber == 1) {
-      if (userChoice == 1) {
-        storyNumber = 2;
-      }
-      if (userChoice == 2) {
-        storyNumber = 3;
-      }
-    }
-    if (storyNumber == 2) {
-      if (userChoice == 1) {
-        storyNumber = 5;
-      }
-      if (userChoice == 2) {
-        storyNumber = 4;
-      }
-    } else {}
+    print('Story number: $_storyNumber');
   }
 
-//TODO: Step 21 - Using the story plan, update nextStory() to change the storyNumber depending on the choice made by the user. e.g. if choiceNumber was equal to 1 and the storyNumber is 0, the storyNumber should become 2.
-
-//TODO: Step 22 - In nextStory() if the storyNumber is equal to 3 or 4 or 5, that means it's the end of the game and it should call a method called restart() that resets the storyNumber to 0.
-
-//TODO: Step 27 - Create a method called buttonShouldBeVisible() which checks to see if storyNumber is 0 or 1 or 2 (when both buttons should show choices) and return true if that is the case, else it should return false.
+  bool buttonShouldBeVisible() {
+    if (_storyNumber == 0 || _storyNumber == 1 || _storyNumber == 2) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
